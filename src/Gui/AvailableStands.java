@@ -23,7 +23,7 @@ public class AvailableStands extends javax.swing.JFrame {
     }
 
     public static eventStringObject returnEvent() {
-        return stand;
+        return ticket;
     }
 
     public AvailableStands() {

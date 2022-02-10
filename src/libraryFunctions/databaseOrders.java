@@ -445,9 +445,10 @@ public class databaseOrders {
             String sql = "Select seatID from app.ticketTable where eventID='" + name + "'";
             ResultSet rs = statement.executeQuery(sql);
             while (rs.next()) {
-                String seatNumber = rs.getString("seatID");
-                takenSeatID.add(seatNumber);
+                String seatID = rs.getString("seatID");
+                takenSeatID.add(seatID);
             }
+            System.out.println(sql);
             rs.close();
             con.close();
             return takenSeatID;
@@ -465,7 +466,7 @@ public class databaseOrders {
             Statement statement = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
             String sql = "Select row from app.untitled where stand='" + stand + "' AND seatID= '" + seatID + "'";
-            ResultSet rs = databaseManagement.executeQuery(sql);
+            ResultSet rs = statement.executeQuery(sql);
             int row = rs.getInt("row");
             rs.close();
             con.close();

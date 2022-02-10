@@ -31,7 +31,7 @@ public class availableSeats extends javax.swing.JFrame {
     public availableSeats() {
         initComponents();
         getEvent();
-        
+        seatsSelected = new ArrayList<>();
     }
 
     /**
@@ -151,9 +151,10 @@ public class availableSeats extends javax.swing.JFrame {
     }//GEN-LAST:event_backButtonActionPerformed
     private void getTakenSeats() {
         ArrayList<String> seatIDs = new ArrayList<>();
+        System.out.println(tempSeat);
         databaseOrders.getTakenSeatID(tempSeat.getEvent(), seatIDs);
-
-        for (int i = 0; i <= seatIDs.size(); i++) {
+        if(seatID)
+        for (int i = 0; i < seatIDs.size(); i++) {
             int row = databaseOrders.getSeatRow(tempSeat.getStand(), tempSeat.getEvent());
             int column = databaseOrders.getSeatColumn(tempSeat.getStand(), tempSeat.getEvent());
             int seat = row * column;
