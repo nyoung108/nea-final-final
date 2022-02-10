@@ -273,7 +273,7 @@ public class databaseOrders {
             hashedPassword = hashedPassword.toLowerCase();
             Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/StadiumBookingDatabaseNea", "Noah", "password");
             Statement statement = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            String sql = "select adminID from app.admintable where exists (select app.usertable.userID from app.usertable where password= '" + hashedPassword + "' and email= '" + email+"')";
+            String sql = "select adminID from app.admintable where exists (select USERID from app.usertable where password= '" + hashedPassword + "' and email= '" + email+"')";
             System.out.println(sql);
             ResultSet rs = statement.executeQuery(sql);
             String userID = rs.getString("userID");
