@@ -5,6 +5,7 @@
  */
 package Gui;
 
+import java.util.Locale;
 import libraryFunctions.*;
 
 public class LoginPage extends javax.swing.JFrame {
@@ -149,11 +150,12 @@ public class LoginPage extends javax.swing.JFrame {
         String email = new String(enteredEmail.getText());
         String password = new String(enteredPassword.getText());
         boolean admin = databaseOrders.isAdmin(email, password);
-        if (admin) {
+        if (admin == true) {
             adminHome home = new adminHome();
             home.setVisible(true);
             this.dispose();
-        }
+        } else {
+        
         boolean validUser = databaseOrders.userLogIn(email, password);
         if (validUser == true) {
             System.out.println("Welcome");
@@ -165,7 +167,7 @@ public class LoginPage extends javax.swing.JFrame {
             System.out.println("Details incorrect. Try again");
         }
     }//GEN-LAST:event_LogInButtonActionPerformed
-
+    }
     private void SignUpInsteadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignUpInsteadButtonActionPerformed
             SignUpPage signUp = new SignUpPage();
             signUp.setVisible(true);

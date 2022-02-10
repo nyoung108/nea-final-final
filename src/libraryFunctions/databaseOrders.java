@@ -19,27 +19,29 @@ public class databaseOrders {
         boolean validUser = false;
         try {
             String hashedPassword = hash.hashedPassword(password);
+            hashedPassword = hashedPassword.toLowerCase();
             Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/StadiumBookingDatabaseNea", "Noah", "password");
             Statement statement = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            String sql = "Select userID from app.usertable where exists (SELECT userID FROM app.usertable WHERE email = '" + email + "' AND password = '" + hashedPassword + "')";
+            String sql = "Select * from app.usertable where exists (SELECT userID FROM app.usertable WHERE email = '" + email + "' AND password = '" + hashedPassword + "')";
             System.out.println(sql);
             ResultSet rs = statement.executeQuery(sql);
-            validUser = rs.getBoolean("userID");
+            validUser = rs.next();
             
                 
             
-            //while (rs.next()) {
-             //   currentUser = new userDetailsObject(rs.getString("USERID"), rs.getString("email"), rs.getString("password"), rs.getString("firstName"), rs.getString("lastName"), rs.getString("dateOfBirth"));
-                
-           // }
+            if (validUser==true){
+                currentUser = new userDetailsObject(rs.getString("USERID"), rs.getString("email"), rs.getString("password"), rs.getString("firstName"), rs.getString("lastName"), rs.getString("dateOfBirth"));
+            }
+            
             rs.close();
             statement.close();
             con.close();
+            return validUser;
         } catch (Exception e) {
             System.out.println(e);
-
+            return false;
         }
-        return validUser;
+        
     }
 
     public static String returnUserID() {
@@ -264,26 +266,33 @@ public class databaseOrders {
     }
 
     public static boolean isAdmin(String email, String password) {
-
+        boolean admin = false;
         try {
+            String hashedPassword = hash.hashedPassword(password);
+            System.out.println(hashedPassword);
+            hashedPassword = hashedPassword.toLowerCase();
             Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/StadiumBookingDatabaseNea", "Noah", "password");
             Statement statement = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            String sql = "Select adminID from app.admintable where exists (select userID from app.usertable where password= '" + password + "' and email= '" + "email')";
+            String sql = "select adminID from app.admintable where exists (select app.usertable.userID from app.usertable where password= '" + hashedPassword + "' and email= '" + email+"')";
+            System.out.println(sql);
             ResultSet rs = statement.executeQuery(sql);
-            boolean admin = false;
-            while (rs.next()) {
-                admin = true;
-            }
+            String userID = rs.getString("userID");
+            System.out.println(userID);
+            
+            
+            admin = rs.next();
+            
             rs.close();
-
+            statement.close();
             con.close();
+            System.out.println(admin);
             return admin;
         } catch (Exception e) {
             System.out.println(e);
-
+            return false;
         }
 
-        return false;
+        
     }
 
     public static void deleteEvent(String eventID) {

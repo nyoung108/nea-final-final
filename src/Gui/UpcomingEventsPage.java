@@ -158,7 +158,10 @@ public class UpcomingEventsPage extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    public UpcomingEventsPage() {
+        initComponents();
+        getEvent();
+    }
     private void searchBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBarActionPerformed
 
 
